@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Harry's 1,500-word vocabulary practice: 30 saved sessions with instant feedback and review rounds.">
+  <meta name="theme-color" content="#17366f">
+  <title>Harry's 1,500-Word Quest</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <button class="brand" id="brand-home" type="button" aria-label="Go to session dashboard">
+      <span class="brand-mark">H</span>
+      <span><b>Harry's Word Quest</b><small>1,500-word practice</small></span>
+    </button>
+    <button class="header-action" id="save-exit" type="button" hidden>Save &amp; exit</button>
+  </header>
+
+  <main>
+    <section id="dashboard" class="view">
+      <div class="hero-shell">
+        <div class="hero-copy">
+          <p class="eyebrow">30 focused sessions · 50 words each</p>
+          <h1>Build a powerful<br><em>1,500-word vocabulary.</em></h1>
+          <p class="hero-intro">Choose the best answer, learn immediately from mistakes, and keep reviewing missed words until every one is mastered.</p>
+          <button class="primary hero-button" id="continue-button" type="button">Start Session 1</button>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="word-tile tile-one">curious</div>
+          <div class="word-tile tile-two">persevere</div>
+          <div class="word-tile tile-three">resourceful</div>
+          <div class="hero-number"><strong>1,500</strong><span>WORDS</span></div>
+        </div>
+      </div>
+
+      <section class="overview-card" aria-label="Overall progress">
+        <div class="overview-copy">
+          <span>Overall progress</span>
+          <strong id="overall-percent">0% mastered</strong>
+        </div>
+        <div class="overview-track" aria-hidden="true"><span id="overall-bar"></span></div>
+        <div class="overview-stats">
+          <div><b id="mastered-count">0</b><span>words mastered</span></div>
+          <div><b id="completed-count">0</b><span>sessions finished</span></div>
+          <div><b>908</b><span>original Zozeck questions</span></div>
+          <div><b>592</b><span>new matched questions</span></div>
+        </div>
+      </section>
+
+      <section class="sessions-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow dark">Your study path</p>
+            <h2>Choose a 50-word session</h2>
+          </div>
+          <button class="quiet-button" id="reset-all" type="button">Reset all progress</button>
+        </div>
+        <div class="session-legend">
+          <span><i class="dot new-dot"></i>Not started</span>
+          <span><i class="dot active-dot"></i>In progress</span>
+          <span><i class="dot done-dot"></i>Mastered</span>
+        </div>
+        <div id="session-grid" class="session-grid"></div>
+      </section>
+
+      <aside class="method-note">
+        <span class="note-icon">✓</span>
+        <div><strong>How the rounds work</strong><p>Round 1 asks all 50 questions. Only missed words return in Round 2. Miss one again and it continues to Round 3, then later rounds, until the session is fully mastered.</p></div>
+      </aside>
+    </section>
+
+    <section id="quiz" class="view quiz-view" hidden>
+      <div class="quiz-shell">
+        <div class="quiz-topline">
+          <div>
+            <p class="eyebrow dark" id="quiz-session-label">Session 1 of 30</p>
+            <h2 id="quiz-round-label">Round 1</h2>
+          </div>
+          <div class="save-state"><span></span>Saved on this device</div>
+        </div>
+
+        <div class="quiz-progress-row">
+          <div class="quiz-progress-track" aria-hidden="true"><span id="quiz-progress-bar"></span></div>
+          <b id="quiz-position">1 / 50</b>
+        </div>
+
+        <article class="question-card">
+          <div class="question-meta">
+            <span id="word-rank">Word 1 of 1,500</span>
+            <span id="grade-pill">Grade 4</span>
+          </div>
+          <h1 id="question-text">Loading question…</h1>
+          <p class="choose-label">Choose one answer</p>
+          <div id="choice-list" class="choice-list"></div>
+
+          <div id="feedback" class="feedback" role="status" aria-live="polite" hidden>
+            <div class="feedback-heading">
+              <span id="feedback-icon" class="feedback-icon"></span>
+              <div><strong id="feedback-title"></strong><small id="feedback-answer"></small></div>
+            </div>
+            <p id="feedback-explanation"></p>
+            <span id="feedback-source" class="source-pill"></span>
+          </div>
+
+          <button class="primary next-button" id="next-button" type="button" hidden>Next question</button>
+        </article>
+      </div>
+    </section>
+
+    <section id="round-summary" class="view center-view" hidden>
+      <article class="summary-card">
+        <span class="summary-symbol review-symbol">↻</span>
+        <p class="eyebrow dark" id="summary-session">Session 1</p>
+        <h1 id="summary-title">Round 1 complete</h1>
+        <p id="summary-message"></p>
+        <div class="summary-numbers">
+          <div><strong id="round-mastered">0</strong><span>mastered this round</span></div>
+          <div><strong id="round-review">0</strong><span>coming back</span></div>
+        </div>
+        <button class="primary" id="start-review" type="button">Start Round 2</button>
+        <button class="text-button dashboard-link" type="button">Save &amp; return to sessions</button>
+      </article>
+    </section>
+
+    <section id="completion" class="view center-view" hidden>
+      <article class="summary-card completion-card">
+        <span class="summary-symbol complete-symbol">★</span>
+        <p class="eyebrow dark" id="complete-session">Session complete</p>
+        <h1>Every word mastered!</h1>
+        <p id="complete-message">Excellent work. This session is finished and saved.</p>
+        <div class="summary-numbers">
+          <div><strong>50</strong><span>words mastered</span></div>
+          <div><strong id="complete-rounds">1</strong><span>rounds completed</span></div>
+        </div>
+        <button class="primary" id="next-session" type="button">Start next session</button>
+        <button class="text-button dashboard-link" type="button">Return to all sessions</button>
+        <button class="quiet-button reset-session" type="button">Practice this session again</button>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>Harry's 1,500-Word Quest · Progress saves automatically in this browser.</p>
+  </footer>
+
+  <script src="./questions.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

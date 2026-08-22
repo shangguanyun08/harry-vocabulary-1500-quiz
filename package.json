@@ -1,0 +1,11 @@
+{
+  "name": "harry-vocabulary-1500-quiz",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:data": "node build-data.mjs",
+    "test": "node --test tests/site.test.mjs",
+    "test:browser": "node --test tests/browser.test.mjs"
+  }
+}

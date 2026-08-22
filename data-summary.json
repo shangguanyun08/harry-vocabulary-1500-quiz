@@ -1,0 +1,10 @@
+{
+  "total": 1500,
+  "sessions": 30,
+  "sessionSize": 50,
+  "sources": {
+    "zozeck": 908,
+    "generated": 592
+  },
+  "generatedWithCloze": 592
+}
