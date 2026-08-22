@@ -46,8 +46,9 @@ test("completes Round 1, persists feedback, and masters misses in Round 2", asyn
 
   try {
     await page.goto("http://127.0.0.1:" + address.port, { waitUntil: "networkidle" });
-    assert.equal(await page.locator(".session-card").count(), 30);
-    assert.match(await page.locator("h1").first().textContent(), /Build a powerful/);
+    assert.equal(await page.locator(".session-card").count(), 4);
+    assert.equal(await page.locator("#set-menu button").count(), 8);
+    assert.match(await page.locator(".page-title").textContent(), /Vocabulary Practice/);
     await page.screenshot({ path: path.join(artifacts, "dashboard-desktop.png"), fullPage: true });
 
     await page.locator('.session-card[data-session="1"]').click();
@@ -97,7 +98,7 @@ test("completes Round 1, persists feedback, and masters misses in Round 2", asyn
     assert.match(await page.locator("#completion h1").textContent(), /Every word mastered/);
     assert.equal(await page.locator("#complete-rounds").textContent(), "2");
     await page.locator("#completion .dashboard-link").click();
-    assert.match(await page.locator('.session-card[data-session="1"] .session-status').textContent(), /Mastered/);
+    assert.match(await page.locator('.session-card[data-session="1"] small').textContent(), /Mastered/);
     await page.screenshot({ path: path.join(artifacts, "dashboard-session-complete.png"), fullPage: true });
   } finally {
     await browser.close();

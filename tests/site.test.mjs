@@ -40,14 +40,17 @@ test("preserves 908 Zozeck questions and creates 592 controlled questions", () =
 });
 
 test("ships an offline-friendly static app with saved review rounds", () => {
-  assert.match(html, /Harry's 1,500-Word Quest/);
+  assert.match(html, /Harry's Vocabulary Practice/);
   assert.match(html, /questions\.js/);
   assert.match(html, /Round 1 asks all 50 questions/);
+  assert.match(html, /One-way progress/);
+  assert.match(html, /Select vocabulary set/);
   assert.match(app, /localStorage\.setItem/);
   assert.match(app, /session\.wrong/);
   assert.match(app, /session\.round \+= 1/);
   assert.match(app, /pendingAnswer/);
   assert.doesNotMatch(html, /previous|go back/i);
-  assert.match(css, /@media \(max-width: 620px\)/);
+  assert.match(css, /@media \(max-width: 560px\)/);
+  assert.match(css, /grid-template-columns: minmax\(270px, 340px\)/);
   new vm.Script(app);
 });
