@@ -14,6 +14,7 @@
   const el = (id) => document.getElementById(id);
   let currentSessionNumber = null;
   let selectedSet = null;
+  let onlineSync = null;
   let progress = loadProgress();
 
   function loadProgress() {
@@ -26,6 +27,7 @@
 
   function saveProgress() {
     localStorage.setItem(storageKey, JSON.stringify(progress));
+    onlineSync?.push(progress);
   }
 
   function unique(values) {
@@ -406,14 +408,14 @@
 
   function resetSession() {
     if (!currentSessionNumber) return;
-    if (!window.confirm("Erase this session and practice its 50 words again?")) return;
+    if (!window.confirm("Erase this session on every device and practice its 50 words again?")) return;
     delete progress.sessions[String(currentSessionNumber)];
     saveProgress();
     openSession(currentSessionNumber);
   }
 
   function resetAll() {
-    if (!window.confirm("Erase all saved progress for every session?")) return;
+    if (!window.confirm("Erase all saved progress for every session on every device?")) return;
     progress = { version: 1, sessions: {} };
     saveProgress();
     renderDashboard();
@@ -442,9 +444,31 @@
   for (const button of document.querySelectorAll(".dashboard-link")) button.addEventListener("click", renderDashboard);
   for (const button of document.querySelectorAll(".reset-session")) button.addEventListener("click", resetSession);
 
+  onlineSync = window.MarcoOnlineSync?.create({
+    appId: "harry-vocabulary-1500-quiz",
+    studentName: "Harry",
+    validate: (value) => Boolean(value?.version === 1 && value.sessions && typeof value.sessions === "object"),
+    score: (value) => Object.values(value.sessions || {}).reduce(
+      (total, session) => total + Number(session.attempts || 0) + (session.completed ? 1 : 0),
+      0,
+    ),
+    onRemote: (value) => {
+      progress = value;
+      localStorage.setItem(storageKey, JSON.stringify(progress));
+      const active = currentSessionNumber && progress.sessions[String(currentSessionNumber)];
+      if (!el("results").hidden) renderResults();
+      else if (active && !el("quiz").hidden) renderQuestion();
+      else if (active && !el("round-summary").hidden) showRoundSummary();
+      else if (active && !el("completion").hidden) showCompletion();
+      else renderDashboard();
+    },
+  }) || null;
+
   if (questions.length !== 1500) {
     document.body.innerHTML = '<main class="center-view"><article class="summary-card"><h1>Question data could not load.</h1><p>Please refresh the page.</p></article></main>';
   } else {
     renderDashboard();
+    onlineSync?.start(progress);
   }
 })();
+
